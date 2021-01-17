@@ -22,6 +22,8 @@ Add the trait to your test case. This will make the `$this->turbo()` method avai
 to your response, like so:
 
 ``` php
+use Tonysm\TurboLaravelTestHelpers\Testing\InteractsWithTurbo;
+
 class ExampleTest extends TestCase
 {
     use InteractsWithTurbo;
