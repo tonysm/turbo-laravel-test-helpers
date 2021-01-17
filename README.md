@@ -5,7 +5,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/tonysm/turbo-laravel-test-helpers.svg?style=flat-square)](https://scrutinizer-ci.com/g/tonysm/turbo-laravel-test-helpers)
 [![Total Downloads](https://img.shields.io/packagist/dt/tonysm/turbo-laravel-test-helpers.svg?style=flat-square)](https://packagist.org/packages/tonysm/turbo-laravel-test-helpers)
 
-This package adds a couple macros and assertion helpers to your application using Turbo Laravel. This was built
+This package adds a couple macros and assertion helpers to your application using [Turbo Laravel](https://github.com/tonysm/turbo-laravel). This was built
 separately because it has different dependencies.
 
 ## Installation
