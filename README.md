@@ -1,8 +1,7 @@
 # Turbo Laravel Test Helpers
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/tonysm/turbo-laravel-test-helpers.svg?style=flat-square)](https://packagist.org/packages/tonysm/turbo-laravel-test-helpers)
-[![Build Status](https://img.shields.io/travis/tonysm/turbo-laravel-test-helpers/master.svg?style=flat-square)](https://travis-ci.org/tonysm/turbo-laravel-test-helpers)
-[![Quality Score](https://img.shields.io/scrutinizer/g/tonysm/turbo-laravel-test-helpers.svg?style=flat-square)](https://scrutinizer-ci.com/g/tonysm/turbo-laravel-test-helpers)
+[![GitHub Tests Action Status](https://github.com/tonysm/turbo-laravel-test-helpers/workflows/Tests/badge.svg)](https://github.com/tonysm/turbo-laravel-test-helpers/workflows/Tests/badge.svg)
 [![Total Downloads](https://img.shields.io/packagist/dt/tonysm/turbo-laravel-test-helpers.svg?style=flat-square)](https://packagist.org/packages/tonysm/turbo-laravel-test-helpers)
 
 This package adds a couple macros and assertion helpers to your application using [Turbo Laravel](https://github.com/tonysm/turbo-laravel). This was built
