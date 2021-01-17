@@ -12,6 +12,11 @@ class TurboLaravelTestHelpersServiceProvider extends ServiceProvider
 {
     public function boot()
     {
+        $this->registerTestMacros();
+    }
+
+    private function registerTestMacros(): void
+    {
         if (app()->environment('testing')) {
             TestResponse::macro('assertTurboStream', function () {
                 return $this->assertHeader(
@@ -50,7 +55,7 @@ class TurboLaravelTestHelpersServiceProvider extends ServiceProvider
                     $actualTarget = $dom->attr('target');
                     $actualAction = $dom->attr('action');
 
-                    if ($actualTarget === $target && ! $action) {
+                    if ($actualTarget === $target && !$action) {
                         return true;
                     }
 

@@ -4,6 +4,8 @@ namespace Tonysm\TurboLaravelTestHelpers\Tests;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
+use Tonysm\TurboLaravel\Http\Middleware\TurboMiddleware;
+use Tonysm\TurboLaravel\TurboFacade;
 use Tonysm\TurboLaravelTestHelpers\Testing\InteractsWithTurbo;
 
 class HttpHelpersTest extends TestCase
@@ -14,7 +16,7 @@ class HttpHelpersTest extends TestCase
     {
         parent::setUp();
 
-        View::addLocation(__DIR__.'/stubs/views');
+        View::addLocation(__DIR__ . '/stubs/views');
     }
 
     /** @test */
@@ -71,5 +73,31 @@ class HttpHelpersTest extends TestCase
         $response->assertHasTurboStream('test_models', 'append');
         $response->assertHasTurboStream('empty_test_models', 'remove');
         $response->assertDoesntHaveTurboStream('test_model_123');
+    }
+
+    /** @test */
+    public function sends_turbo_native_requests()
+    {
+        Route::get('test-me', function () {
+            if (TurboFacade::isTurboNativeVisit()) {
+                return 'hello from turbo native';
+            }
+
+            return 'not from turbo native';
+        })->middleware(TurboMiddleware::class);
+
+        $this->get('test-me')->assertSee('not from turbo native');
+        $this->turboNative()->get('test-me')->assertSee('hello from turbo native');
+    }
+
+    /** @test */
+    public function detects_turbo_native_from_requests_in_view()
+    {
+        Route::get('test-me', function () {
+            return view('turbo_native');
+        })->middleware(TurboMiddleware::class);
+
+        $this->get('test-me')->assertSee('Not a Turbo Native request');
+        $this->turboNative()->get('test-me')->assertSee('Hello from Turbo Native');
     }
 }

@@ -5,7 +5,8 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/tonysm/turbo-laravel-test-helpers.svg?style=flat-square)](https://scrutinizer-ci.com/g/tonysm/turbo-laravel-test-helpers)
 [![Total Downloads](https://img.shields.io/packagist/dt/tonysm/turbo-laravel-test-helpers.svg?style=flat-square)](https://packagist.org/packages/tonysm/turbo-laravel-test-helpers)
 
-This package adds a couple macros and assertion helpers to your application using Turbo Laravel. This was built separately because it has different dependencies.
+This package adds a couple macros and assertion helpers to your application using Turbo Laravel. This was built
+separately because it has different dependencies.
 
 ## Installation
 
@@ -17,7 +18,8 @@ composer require tonysm/turbo-laravel-test-helpers --dev
 
 ## Usage
 
-Add the trait to your test case. This will make the `$this->turbo()` method available. This will add the correct header to your response, like so:
+Add the trait to your test case. This will make the `$this->turbo()` method available. This will add the correct header
+to your response, like so:
 
 ``` php
 class ExampleTest extends TestCase
@@ -28,14 +30,22 @@ class ExampleTest extends TestCase
     public function turbo_stream_test()
     {
         $response = $this->turbo()->post('my-route');
-        
+
         $response->assertTurboStream();
-        
+
         // Checks if one of the Turbo Stream responses matches this criteria.
         $response->assertHasTurboStream($target = 'users', $action = 'append');
-        
+
         // Checks if there is no Turbo Stream tag for the criteria.
         $response->assertDoesntHaveTurboStream($target = 'empty_users', $action = 'remove');
+    }
+
+    /** @test */
+    public function turbo_native_shows()
+    {
+        $response = $this->turboNative()->get('my-route');
+
+        $response->assertSee('Only rendered in Turbo Native');
     }
 }
 ```
