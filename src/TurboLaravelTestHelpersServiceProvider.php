@@ -32,7 +32,7 @@ class TurboLaravelTestHelpersServiceProvider extends ServiceProvider
                     $actualTarget = $dom->attr('target');
                     $actualAction = $dom->attr('action');
 
-                    return $actualTarget === $target && (!$action || $actualAction === $action);
+                    return $actualTarget === $target && (! $action || $actualAction === $action);
                 });
 
                 Assert::assertTrue(
@@ -55,7 +55,7 @@ class TurboLaravelTestHelpersServiceProvider extends ServiceProvider
                     $actualTarget = $dom->attr('target');
                     $actualAction = $dom->attr('action');
 
-                    if ($actualTarget === $target && !$action) {
+                    if ($actualTarget === $target && ! $action) {
                         return true;
                     }
 
