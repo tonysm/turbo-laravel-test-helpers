@@ -27,6 +27,7 @@ class TestCase extends Testbench\TestCase
 
     public function getEnvironmentSetUp($app)
     {
+        $app['config']->set('app.debug', true);
         $app['config']->set('database.default', 'sqlite');
         $app['config']->set('database.connections.sqlite', [
             'driver' => 'sqlite',
