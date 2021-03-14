@@ -19,8 +19,7 @@ class HttpHelpersTest extends TestCase
         View::addLocation(__DIR__ . '/stubs/views');
     }
 
-    /** @test */
-    public function sends_turbo_requests()
+    public function usesTurboStreamRoutes()
     {
         Route::get('test-me', function () {
             if (request()->wantsTurboStream()) {
@@ -30,13 +29,6 @@ class HttpHelpersTest extends TestCase
             return 'doesnt want turbo stream';
         });
 
-        $this->get('test-me')->assertSee('doesnt want turbo stream');
-        $this->turbo()->get('test-me')->assertSee('wants turbo stream');
-    }
-
-    /** @test */
-    public function asserts_turbo_stream_tags()
-    {
         Route::post('test-me', function () {
             $model = TestModel::create(['name' => 'Hello']);
 
@@ -47,6 +39,43 @@ class HttpHelpersTest extends TestCase
             return 'doesnt want turbo stream';
         });
 
+        Route::post('test-me-view', function () {
+            if (request()->wantsTurboStream()) {
+                return response()->turboStreamView(view('test_models/turbo_stream'));
+            }
+
+            return 'doesnt want turbo stream';
+        });
+
+        Route::get('native-test-me', function () {
+            if (TurboFacade::isTurboNativeVisit()) {
+                return 'hello from turbo native';
+            }
+
+            return 'not from turbo native';
+        })->middleware(TurboMiddleware::class);
+
+        Route::get('native-blade', function () {
+            return view('turbo_native');
+        })->middleware(TurboMiddleware::class);
+    }
+
+    /**
+     * @test
+     * @define-route usesTurboStreamRoutes
+     */
+    public function sends_turbo_requests()
+    {
+        $this->get('test-me')->assertSee('doesnt want turbo stream');
+        $this->turbo()->get('test-me')->assertSee('wants turbo stream');
+    }
+
+    /**
+     * @test
+     * @define-route usesTurboStreamRoutes
+     */
+    public function asserts_turbo_stream_tags()
+    {
         $response = $this->turbo()->post('test-me');
 
         $response->assertTurboStream();
@@ -56,18 +85,13 @@ class HttpHelpersTest extends TestCase
         $response->assertDoesntHaveTurboStream('test_model_123', 'append');
     }
 
-    /** @test */
+    /**
+     * @test
+     * @define-route usesTurboStreamRoutes
+     */
     public function assert_has_turbo_stream_when_multiple_streams()
     {
-        Route::post('test-me', function () {
-            if (request()->wantsTurboStream()) {
-                return response()->turboStreamView(view('test_models/turbo_stream'));
-            }
-
-            return 'doesnt want turbo stream';
-        });
-
-        $response = $this->turbo()->post('test-me');
+        $response = $this->turbo()->post('test-me-view');
 
         $response->assertTurboStream();
         $response->assertHasTurboStream('test_models', 'append');
@@ -75,29 +99,23 @@ class HttpHelpersTest extends TestCase
         $response->assertDoesntHaveTurboStream('test_model_123');
     }
 
-    /** @test */
+    /**
+     * @test
+     * @define-route usesTurboStreamRoutes
+     */
     public function sends_turbo_native_requests()
     {
-        Route::get('test-me', function () {
-            if (TurboFacade::isTurboNativeVisit()) {
-                return 'hello from turbo native';
-            }
-
-            return 'not from turbo native';
-        })->middleware(TurboMiddleware::class);
-
-        $this->get('test-me')->assertSee('not from turbo native');
-        $this->turboNative()->get('test-me')->assertSee('hello from turbo native');
+        $this->get('native-test-me')->assertSee('not from turbo native');
+        $this->turboNative()->get('native-test-me')->assertSee('hello from turbo native');
     }
 
-    /** @test */
+    /**
+     * @test
+     * @define-route usesTurboStreamRoutes
+     */
     public function detects_turbo_native_from_requests_in_view()
     {
-        Route::get('test-me', function () {
-            return view('turbo_native');
-        })->middleware(TurboMiddleware::class);
-
-        $this->get('test-me')->assertSee('Not a Turbo Native request');
-        $this->turboNative()->get('test-me')->assertSee('Hello from Turbo Native');
+        $this->get('native-blade')->assertSee('Not a Turbo Native request');
+        $this->turboNative()->get('native-blade')->assertSee('Hello from Turbo Native');
     }
 }
