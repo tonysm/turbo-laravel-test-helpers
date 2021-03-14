@@ -5,7 +5,7 @@ namespace Tonysm\TurboLaravelTestHelpers\Tests;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Tonysm\TurboLaravel\Http\Middleware\TurboMiddleware;
-use Tonysm\TurboLaravel\TurboFacade;
+use Tonysm\TurboLaravel\Facades\Turbo as TurboFacade;
 use Tonysm\TurboLaravelTestHelpers\Testing\InteractsWithTurbo;
 
 class HttpHelpersTest extends TestCase
