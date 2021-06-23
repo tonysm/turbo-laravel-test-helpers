@@ -20,7 +20,7 @@
         "illuminate/support": "^8.0",
         "symfony/css-selector": "^5.2",
         "symfony/dom-crawler": "^5.2",
-        "tonysm/turbo-laravel": "^0.9"
+        "tonysm/turbo-laravel": "^0.10"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.18",
